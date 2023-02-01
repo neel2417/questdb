@@ -1,0 +1,23 @@
+
+import requests 
+
+SELECT * FROM trips;
+
+SELECT avg(trip_distance) FROM trips;
+SELECT pickup_datetime FROM trips;
+SELECT trip_distance FROM trips;
+
+url = "https://demo.questdb.io/api/sql"
+
+query = "SELECT pickup_datetime as x, trip_distance as y FROM trips"
+
+data = {"query": query}
+
+response = requests.post(url, json=data)
+
+if response.status_code == 200:
+    trips = response.json()["records"]
+    for trip in trips:
+        print("Date:", trip["x"], "Distance:", trip["y"])
+else:
+    print("Failed to retrieve data:", response.text)
